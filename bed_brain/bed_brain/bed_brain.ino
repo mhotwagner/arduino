@@ -2,7 +2,7 @@
 #include <ESP8266WebServer.h>
 
 #include <FS.h>
-#include <SPIFFS.h>
+
 
 
 #include <Adafruit_NeoPixel.h>
@@ -77,8 +77,10 @@ String readFile(String path) {
   String filePath = getFilePath(path);
   Serial.println("[INFO] Servfing file " + filePath + " for route " +  path);
   if (SPIFFS.exists(filePath)) {
-    File file = SPIFFS.open(path, "");
+    File file = SPIFFS.open(path, "r");
     String data = file.readString();
+    Serial.print("[INFO] FILE: " + data);
+    Serial.println();
     file.close();
     return data;
   }
@@ -94,14 +96,21 @@ void initializeServer() {
     Serial.println(path);
     Serial.println("[INFO] GET /");
     blinkLedStrip(&shelfStrip, 1);
-    String data = readFile("index.html");
+    String data = readFile("/index.html");
     server.send(200, "text/html", data);
   });
 
   server.on("/blink", [](){
     Serial.println("[INFO] GET /blink");
-    blinkLedStrip(&shelfStrip, 2);
+    blinkLedStrip(&shelfStrip, 3);
     String data = readFile("/blink.html");
+    server.send(200, "text/html", data);
+  });
+
+  server.on("/fake", [](){
+    Serial.println("[INFO] GET /blink");
+    blinkLedStrip(&shelfStrip, 1);
+    String data = readFile("/fake.html");
     server.send(200, "text/html", data);
   });
 
@@ -124,6 +133,15 @@ void initializeServer() {
 
 void setup() {
   Serial.begin(9600);
+
+  if(SPIFFS.begin())
+  {
+    Serial.println("SPIFFS Initialize....ok");
+  }
+  else
+  {
+    Serial.println("SPIFFS Initialization...failed");
+  }
 
   initializeWifi();
   initializeServer();
