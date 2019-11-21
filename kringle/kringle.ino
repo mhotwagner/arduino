@@ -8,7 +8,7 @@
 
 // Shelf LEDs
 int shelfLedPin = D8;
-int shelfLedCount = 180;
+int shelfLedCount = 1;
 int shelfBrightness = 50;
 int shelfr = 255;
 int shelfg = 255;
@@ -144,20 +144,8 @@ void setup() {
   
   server.begin();
 }
-//
-//void handleKnob() {
-//  Serial.println(knob.read());
-//}
 
 
 void loop() {
   server.handleClient();
-//  handleKnob();
 }
-
-
-  // server.on("/temperature", [](){
-  //   Serial.println("[INFO] GET /temperature");
-  //   server.sendHeader("Location", "/temperature/", true);
-  //   server.send(302, "text/plain", "");
-  // });  
