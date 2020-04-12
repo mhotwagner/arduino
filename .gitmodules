@@ -1,0 +1,3 @@
+[submodule "kringle"]
+	path = kringle
+	url = git@github.com:mhotwagner/kringle
