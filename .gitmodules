@@ -1,3 +1,6 @@
 [submodule "kringle"]
 	path = kringle
 	url = git@github.com:mhotwagner/kringle
+[submodule "libraries/Ornament"]
+	path = libraries/Ornament
+	url = git@github.com:mhotwagner/Ornament
