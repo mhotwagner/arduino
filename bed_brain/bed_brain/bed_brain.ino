@@ -123,15 +123,6 @@ void initializeServer() {
   Serial.println(serverPort);
 }
 
-// Start the file system
-void initializeFS() {
-  if(SPIFFS.begin()) {
-    Serial.println("SPIFFS Initialize....ok");
-  } else {
-    Serial.println("SPIFFS Initialization...failed");
-  }
-}
-
 void setup() {
   Serial.begin(9600);
 
