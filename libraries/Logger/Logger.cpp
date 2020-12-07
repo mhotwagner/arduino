@@ -71,6 +71,10 @@ bool Logger::logApi(String message) {
 	return false;
 }
 
+void Logger::log(int message) {
+	log(String(message));
+}
+
 void Logger::log(String message) {
 	if (_usingApi) {
 		if (!logApi(message)) logSerial(message);

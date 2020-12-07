@@ -23,6 +23,7 @@ class Logger {
     void useSerial();
 
     void log(String message);
+    void log(int message);
 
   private:
     bool testApi();
