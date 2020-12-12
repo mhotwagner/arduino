@@ -19,9 +19,12 @@ Logger::Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient) {
 }
 
 bool Logger::testApi() {
+	logSerial("[Logger] Testing api");
 	_apiClient->begin("http://" + _apiHost + "/api/status/");
 	int status = _apiClient->GET();
 	_apiClient->end();
+	logSerial(String(status));
+	logSerial("[Logger] Done testing api");
 	if (status == 200) return true;
 	return false;
 }
@@ -31,7 +34,8 @@ void Logger::setApi(String apiHost) {
 	_apiConfigured = true;
 	_apiConnected = testApi();
 	if (_apiConnected) {
-		logSerial("[Logger] Connected!");
+		logSerial("[Logger] Connected");
+		logApi("[Logger] Connected");
 		_usingApi = true;
 	} else {
 		logSerial("[Logger] Failed to connect");
