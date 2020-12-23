@@ -100,12 +100,12 @@ bool Logger::logApi(String message) {
 	_apiClient->end();
 	if (status == 201) return true;
 
-	logSerial("[ERROR] Failed to log to api: " + status);
+	logSerial("[LOGGER] Error, failed to log to api: " + status);
 	return false;
 }
 
 void Logger::log(String message, int logLevel) {
-	String _message = "[" + logLevel + "] " + message;
+	String _message = String("[") + logLevel + String("] ") + message;
 	if (_usingApi && logLevel >= _apiLogLevel) logApi(message);
 	if (logLevel >= _serialLogLevel) logSerial(message);
 }
