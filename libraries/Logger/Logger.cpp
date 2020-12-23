@@ -16,6 +16,36 @@ Logger::Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient) {
 	_id = id;
 	_apiClient = apiClient;
 	_serialClient = serialClient;
+	_serialLogLevel = DEBUG;
+	_apiLogLevel = ERROR;
+	_defaultLogLevel = INFO;
+}
+
+Logger::Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient, int apiLogLevel) {
+	_id = id;
+	_apiClient = apiClient;
+	_serialClient = serialClient;
+	_apiLogLevel = apiLogLevel;
+	_serialLogLevel = DEBUG;
+	_defaultLogLevel = INFO;
+}
+
+Logger::Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient, int apiLogLevel, int serialLogLevel) {
+	_id = id;
+	_apiClient = apiClient;
+	_serialClient = serialClient;
+	_apiLogLevel = apiLogLevel;
+	_serialLogLevel = serialLogLevel;
+	_defaultLogLevel = INFO;
+}
+
+Logger::Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient, int apiLogLevel, int serialLogLevel, int defaultLogLevel) {
+	_id = id;
+	_apiClient = apiClient;
+	_serialClient = serialClient;
+	_apiLogLevel = apiLogLevel;
+	_serialLogLevel = serialLogLevel;
+	_defaultLogLevel = defaultLogLevel;
 }
 
 bool Logger::testApi() {
@@ -71,18 +101,55 @@ bool Logger::logApi(String message) {
 	if (status == 201) return true;
 
 	logSerial("[ERROR] Failed to log to api: " + status);
-	logSerial(message);
 	return false;
 }
 
-void Logger::log(int message) {
-	log(String(message));
+void Logger::log(String message, int logLevel) {
+	String _message = "[" + logLevel + "] " + message;
+	if (_usingApi && logLevel >= _apiLogLevel) logApi(message);
+	if (logLevel >= _serialLogLevel) logSerial(message);
 }
 
 void Logger::log(String message) {
-	if (_usingApi) {
-		if (!logApi(message)) logSerial(message);
-	} else {
-		logSerial(message);
-	}
+	log(message, _defaultLogLevel);
+}
+
+void Logger::log(int message, int logLevel) {
+	log(String(message));
+}
+
+void Logger::log(int message) {
+	log(String(message), _defaultLogLevel);
+}
+
+void Logger::log(double message, int logLevel) {
+	log(String(message), logLevel);
+}
+
+void Logger::log(double message) {
+	log(String(message), _defaultLogLevel);
+}
+
+void Logger::log(IPAddress message, int logLevel) {
+  String stringified = String(message[0]) + String(".") +\
+  String(message[1]) + String(".") +\
+  String(message[2]) + String(".") +\
+  String(message[3]);
+  log(stringified, logLevel);
+}
+
+void Logger::log(IPAddress message) {
+  String stringified = String(message[0]) + String(".") +\
+  String(message[1]) + String(".") +\
+  String(message[2]) + String(".") +\
+  String(message[3]);
+  log(stringified, _defaultLogLevel);
+}
+
+void Logger::log(size_t message, int logLevel) {
+	log(String(message), logLevel);
+}
+
+void Logger::log(size_t message) {
+	log(String(message), _defaultLogLevel) ;
 }

@@ -16,6 +16,9 @@
 class Logger {
   public:
   	Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient);
+    Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient, int logLevel);
+    Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient, int apiLogLevel, int serialLogLevel);
+    Logger(String id, HTTPClient* apiClient, HardwareSerial* serialClient, int apiLogLevel, int serialLogLevel, int defaultLogLevel);
 
     void setApi(String apiHost);
     
@@ -24,6 +27,21 @@ class Logger {
 
     void log(String message);
     void log(int message);
+    void log(double message);
+    void log(IPAddress message);
+    void log(size_t message);
+
+    void log(String message, int logLevel);
+    void log(int message, int logLevel);
+    void log(double message, int logLevel);
+    void log(IPAddress message, int logLevel);
+    void log(size_t message, int logLevel);
+
+    int ALL = 0;
+    int DEBUG = 1;
+    int INFO = 2;
+    int WARN = 3;
+    int ERROR = 4;
 
   private:
     bool testApi();
@@ -40,5 +58,8 @@ class Logger {
     HTTPClient* _apiClient;
     HardwareSerial* _serialClient;
 
+    int _apiLogLevel;
+    int _serialLogLevel;
+    int _defaultLogLevel;
 };
 #endif
