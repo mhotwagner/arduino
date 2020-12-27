@@ -4,3 +4,6 @@
 [submodule "libraries/Ornament"]
 	path = libraries/Ornament
 	url = git@github.com:mhotwagner/Ornament
+[submodule "libraries/Logger"]
+	path = libraries/Logger
+	url = git@github.com:mhotwagner/KringleLogger
