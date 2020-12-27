@@ -105,7 +105,6 @@ bool Logger::logApi(String message) {
 }
 
 void Logger::log(String message, int logLevel) {
-	String _message = String("[") + logLevel + String("] ") + message;
 	if (_usingApi && logLevel >= _apiLogLevel) logApi(message);
 	if (logLevel >= _serialLogLevel) logSerial(message);
 }
@@ -115,10 +114,18 @@ void Logger::log(String message) {
 }
 
 void Logger::log(int message, int logLevel) {
-	log(String(message));
+	log(String(message), logLevel);
 }
 
 void Logger::log(int message) {
+	log(String(message), _defaultLogLevel);
+}
+
+void Logger::log(long message, int logLevel) {
+	log(String(message), logLevel);
+}
+
+void Logger::log(long message) {
 	log(String(message), _defaultLogLevel);
 }
 
@@ -152,4 +159,12 @@ void Logger::log(size_t message, int logLevel) {
 
 void Logger::log(size_t message) {
 	log(String(message), _defaultLogLevel) ;
+}
+
+void Logger::log(long unsigned int message, int logLevel) {
+	log(String(message), logLevel);
+}
+
+void Logger::log(long unsigned int message) {
+	log(String(message), _defaultLogLevel);
 }

@@ -27,15 +27,19 @@ class Logger {
 
     void log(String message);
     void log(int message);
+    void log(long message);
     void log(double message);
     void log(IPAddress message);
     void log(size_t message);
+    void log(long unsigned int message);
 
     void log(String message, int logLevel);
     void log(int message, int logLevel);
+    void log(long message, int logLevel);
     void log(double message, int logLevel);
     void log(IPAddress message, int logLevel);
     void log(size_t message, int logLevel);
+    void log(long unsigned int message, int logLevel);
 
     int ALL = 0;
     int DEBUG = 1;
